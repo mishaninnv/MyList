@@ -36,7 +36,7 @@ namespace List.Tests
         [Test]
         public void TestGetEnumerator()
         {
-            var list = GetSortedList(17);
+            var list = GetSortedList(1000);
 
             var counter = 0;
             foreach (var i in list)
@@ -47,7 +47,7 @@ namespace List.Tests
 
             IEnumerator enumerator = list.GetEnumerator();
 
-            Assert.AreEqual(0, enumerator.Current);
+            Assert.AreEqual(null, enumerator.Current);
             Assert.IsTrue(enumerator.MoveNext());
         }
 
@@ -61,6 +61,8 @@ namespace List.Tests
             list.Clear();
 
             Assert.AreEqual(0, list.Count);
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveAt(101));
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(1, 1));
         }
 
         [Test]
@@ -106,6 +108,9 @@ namespace List.Tests
 
             list.Insert(30, 500);
 
+            Assert.AreEqual(30, list[31]);
+            Assert.AreEqual(91, list.Count);
+            Assert.AreEqual(89, list[90]);
             Assert.AreEqual(500, list[30]);
             Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(92, 5));
         }
